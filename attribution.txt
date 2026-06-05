@@ -13,3 +13,8 @@ Pocket JSON
 The cleaned pocket PDB was analyzed for pockets using the RowanSci
 implementation of Pocketeer. The pocket JSON was expored from the RowanSci
 platform.
+
+========
+AI USAGE
+========
+This codebase was written using Claude Code with Qwen3.6
