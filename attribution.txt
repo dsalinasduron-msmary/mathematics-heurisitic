@@ -18,3 +18,13 @@ platform.
 AI USAGE
 ========
 This codebase was written using Claude Code with Qwen3.6
+
+======================
+Imatinib SMILES String
+======================
+Obtained from https://meeko.readthedocs.io/en/develop/tutorial1.html
+
+=============
+Human Body pH
+=============
+Obtained from  https://www.ncbi.nlm.nih.gov/books/NBK507807/
