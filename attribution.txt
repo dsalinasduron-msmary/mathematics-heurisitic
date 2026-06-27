@@ -28,3 +28,9 @@ Obtained from https://meeko.readthedocs.io/en/develop/tutorial1.html
 Human Body pH
 =============
 Obtained from  https://www.ncbi.nlm.nih.gov/books/NBK507807/
+
+==================
+CHARMM FORCE FIELD
+==================
+Obtained from https://mackerell.umaryland.edu/charmm_ff.shtml#gromacs
+

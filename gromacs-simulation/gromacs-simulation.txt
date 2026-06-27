@@ -1,0 +1,19 @@
+# 0
+These selections are based off of 
+http://www.mdtutorials.com/gmx/complex/01_pdb2gmx.html
+
+# 1
+Download CHARMM forcefield from 
+  charmm36-feb2026_cgenff-5.0.ff.tgz
+The extract the force field
+tar -zxvf charmm36-feb2026_cgenff-5.0.ff.tgz
+
+# 2 
+
+Generate the topolgy file. Run with the ignore hydrogens flag since the pdb
+had hydrogens added at pH 7 by the PDBFixer tool on Rowansci.
+gmx pdb2gmx -ignh -f 1iep_no_ligands.pdb -o 1iep_processed.gro -ter
+  2.1 select local force field
+  2.2 select CHARMM-modified TIP3P water model
+  2.3 select GLY-NH3+ as the start terminus
+  2.4 select COO- as the end terminus
