@@ -1,22 +1,17 @@
 #!/usr/bin/env bash
 # Select a sphere for pocket $1, then compute its bounding box.
-# Usage: prepare-receptor_spheres.sh <pdb_file> <output_dir> <pocket> <sphere_number_1based>
+# Usage: prepare-receptor_spheres.sh <pdb_file> <output_dir> <pocket> <sphere_number>
 
 if [ $# -lt 4 ]; then
-  echo "Usage: $0 <pdb_file> <output_dir> <pocket> <sphere_number_1based>"
+  echo "Usage: $0 <pdb_file> <output_dir> <pocket> <sphere_number>"
   exit 1
 fi
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
-# Pocket is 0-indexed in pocket-spheres.tsv; allow 1-based input like prepare-receptor.sh.
+# Pocket is 0-indexed in pocket-spheres.tsv
 POCKET=$3
 SPHERE=$4
-
-# Support 1-based sphere input: if decrementing still matches a row, prefer that value.
-if awk -F'\t' 'NR>1 && $2 == '$((SPHERE - 1))' { found=1; exit } END { exit !found }' "$SCRIPT_DIR/pocket-spheres.tsv"; then
-  SPHERE=$((SPHERE - 1))
-fi
 
 # Look up pocket and sphere to confirm they exist
 if ! grep -qP "^${POCKET}\t${SPHERE}\t" "$SCRIPT_DIR/pocket-spheres.tsv"; then

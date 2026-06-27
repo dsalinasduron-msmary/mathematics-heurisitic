@@ -2,18 +2,10 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 # Select box from pocket-boxes.tsv (column `pocket` is 0-indexed)
 if [ -z "$3" ]; then
-  echo "Usage: $0 <pdb_file> <output_dir> [box_number_1-based]"
+  echo "Usage: $0 <pdb_file> <output_dir> [box_number]"
   exit 1
 fi
-BOX_NUM=$3
-
-# Support 1-based input (default): if the user provides a number that matches
-# an existing pocket entry when decremented, prefer the 0-indexed value.
-if awk -F'\t' 'NR>1 && $1 == '$((BOX_NUM - 1))' { found=1; exit } END { exit !found }' "$SCRIPT_DIR/pocket-boxes.tsv"; then
-  POCKET=$((BOX_NUM - 1))
-else
-  POCKET=$BOX_NUM
-fi
+POCKET=$3
 
 FOUND=$(awk -F'\t' -v p="$POCKET" 'NR>1 && $1==p { print; exit }' "$SCRIPT_DIR/pocket-boxes.tsv")
 if [ -z "$FOUND" ]; then
