@@ -216,10 +216,11 @@ if __name__ == "__main__":
     import sys
 
     if len(sys.argv) != 3:
-        print(f"Usage: {sys.argv[0]} <scaffold_smiles> <fragment_file>")
+        print(f"Usage: {sys.argv[0]} <scaffold_file> <fragment_file>")
         sys.exit(1)
 
-    scaffold_smiles, frag_path = sys.argv[1], sys.argv[2]
+    scaffold_path, frag_path = sys.argv[1], sys.argv[2]
+    scaffold_smiles = Path(scaffold_path).read_text().strip()
 
     lib = read_fragment_library(frag_path)
     results = scaffold_with_all_fragments(scaffold_smiles, lib)
