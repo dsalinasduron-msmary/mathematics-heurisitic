@@ -29,3 +29,5 @@ Convert the standalone ligand topology file to an include topology file.
   2.3 Remove all lines from "; Include water topology" to the end of the file
   2.4 Rename the [moleculetype] from Other to IMTB
   2.5 Change #include "posre.itp" to #include "posre_ima.itp"
+
+# 5
