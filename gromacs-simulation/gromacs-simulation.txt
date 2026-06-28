@@ -19,4 +19,4 @@ gmx pdb2gmx -ignh -f 1iep_no_ligands.pdb -o 1iep_processed.gro -ter
 
 # 3 
 Generate a mol2 file for the ligand. Load imatinib-smiles.smi into Avogadro and export as mol2.
-Upload this to CGenFF 
+Upload this to CGenFF and generate GROMACS output.
