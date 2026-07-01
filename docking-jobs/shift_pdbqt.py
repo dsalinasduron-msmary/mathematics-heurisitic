@@ -16,36 +16,49 @@ def read_pdbqt(filename: str):
     return xs, ys, zs
 
 
-def main():
-    parser = argparse.ArgumentParser(description="Shift all atoms in a PDBQT file to a given centroid")
-    parser.add_argument("pdbqt", help="Path to the PDBQT file")
-    parser.add_argument("centroid", help="New center (x,y,z)")
-    args = parser.parse_args()
+def main(pdbqt_string: str, cx: float = 0.0, cy: float = 0.0, cz: float = 0.0):
+    """Shift all atoms in a PDBQT string so their centroid moves to (cx, cy, cz).
 
-    cx, cy, cz = (float(x) for x in args.centroid.split(","))
-    xs, ys, zs = read_pdbqt(args.pdbqt)
+    Args:
+        pdbqt_string: PDBQT contents as a string.
+        cx, cy, cz: Target center coordinates (default origin).
+
+    Returns:
+        The shifted PDBQT as a string.
+    """
+    # Parse all ATOM coordinates and the original lines
+    xs, ys, zs, lines = [], [], [], pdbqt_string.splitlines(keepends=True)
+    for line in lines:
+        if line.startswith("ATOM"):
+            xs.append(float(line[30:38]))
+            ys.append(float(line[38:46]))
+            zs.append(float(line[46:54]))
+
     if not xs:
-        print("ERROR: no ATOM records found", flush=True)
-        return 1
+        raise ValueError("no ATOM records found")
 
-    center_x = (min(xs) + max(xs)) / 2
-    center_y = (min(ys) + max(ys)) / 2
-    center_z = (min(zs) + max(zs)) / 2
+    # Compute centroid (average of all atom coordinates)
+    center_x = sum(xs) / len(xs)
+    center_y = sum(ys) / len(ys)
+    center_z = sum(zs) / len(zs)
+
     dx = cx - center_x
     dy = cy - center_y
     dz = cz - center_z
 
-    with open(args.pdbqt) as f:
-        for line in f:
-            if line.startswith("ATOM"):
-                x = float(line[30:38]) + dx
-                y = float(line[38:46]) + dy
-                z = float(line[46:54]) + dz
-                print(f"{line[:30]}{x:>8.3f}{y:>8.3f}{z:>8.3f}{line[54:]}")
-            else:
-                print(line, end="")
-    return 0
+    out = []
+    for line in lines:
+        if line.startswith("ATOM"):
+            x = float(line[30:38]) + dx
+            y = float(line[38:46]) + dy
+            z = float(line[46:54]) + dz
+            out.append(f"{line[:30]}{x:>8.3f}{y:>8.3f}{z:>8.3f}{line[54:]}")
+        else:
+            out.append(line)
+    return "".join(out)
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    # Usage: python shift_pdbqt.py
+    # Called programmatically:  result = main(pdbqt_string, cx, cy, cz)
+    pass
