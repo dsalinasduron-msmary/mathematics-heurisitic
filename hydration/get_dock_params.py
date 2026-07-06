@@ -55,16 +55,13 @@ def main():
     sphere_cy = float(parts[1])
     sphere_cz = float(parts[2])
 
-    # --- report ---
-    print("Pocket-sphere centre")
-    print(f"  Center_X  {sphere_cx:8.4f}")
-    print(f"  Center_Y  {sphere_cy:8.4f}")
-    print(f"  Center_Z  {sphere_cz:8.4f}")
-    print()
-    print("Ligand bounding box")
-    print(f"  Center_X  {lig_center_x:8.3f}   Size_X  {lig_size_x:8.3f}")
-    print(f"  Center_Y  {lig_center_y:8.3f}   Size_Y  {lig_size_y:8.3f}")
-    print(f"  Center_Z  {lig_center_z:8.3f}   Size_Z  {lig_size_z:8.3f}")
+    # --- report (matching example.txt format) ---
+    print(f"center_x = {sphere_cx:.3f}")
+    print(f"center_y = {sphere_cy:.3f}")
+    print(f"center_z = {sphere_cz:.3f}")
+    print(f"size_x = {lig_size_x:.1f}")
+    print(f"size_y = {lig_size_y:.1f}")
+    print(f"size_z = {lig_size_z:.1f}")
 
 
 if __name__ == "__main__":
