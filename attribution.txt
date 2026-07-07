@@ -6,6 +6,9 @@ The pocket PDB was obtained from the Meeko GitHub repository, itself obtained
 from the PDB page 1IEP.
 https://github.com/forlilab/Meeko/blob/develop/example/tutorial1/input_files/1iep_protein.pdb
 
+For docking jobs, a protonated version was obtained from the AutoDock Vina tutorial.
+https://github.com/ccsb-scripps/AutoDock-Vina/blob/develop/example/basic_docking/data/1iep_receptorH.pdb
+
 ===========
 Pocket JSON
 ===========
