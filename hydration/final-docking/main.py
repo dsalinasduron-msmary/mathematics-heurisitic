@@ -42,6 +42,11 @@ with open("pocket-spheres.tsv") as f:
                 ["python3", "get_dock_params.py", "-p", pocket, "-s", sphere, pdbqt_path],
                 capture_output=True, text=True, check=True,
             )
-            params_path = os.path.join(folder_name, "dock_params.txt")
-            with open(params_path, "w") as out:
+            boxinfo_path = os.path.join(folder_name, "boxinfo.txt")
+            with open(boxinfo_path, "w") as out:
                 out.write(result.stdout)
+            # Run receptor preparation; pass boxinfo.txt so outputs land in the pair folder.
+            subprocess.run(
+                ["./prepare-receptor_boxinfo.sh", boxinfo_path, folder_name],
+                check=True,
+            )
