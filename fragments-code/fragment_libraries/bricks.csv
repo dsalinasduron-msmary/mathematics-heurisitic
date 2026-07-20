@@ -1,0 +1,46 @@
+Name,SMILES,Ring_Size,Type
+Benzene,c1ccccc1,6,Aromatic
+Pyridine,c1cnccc1,6,Aromatic
+Pyridazine,c1cnncc1,6,Aromatic
+Pyrimidine,c1cncnc1,6,Aromatic
+Pyrazine,c1cnccn1,6,Aromatic
+1,2,3-Triazine,c1nnncc1,6,Aromatic
+1,2,4-Triazine,c1nncnc1,6,Aromatic
+1,3,5-Triazine,c1ncncn1,6,Aromatic
+2-Pyrone,O=C1C=CC=CO1,6,Neutral Pyrone
+4-Pyrone,O=C1C=COC=C1,6,Neutral Pyrone
+Coumarin,O=C1C=Cc2ccccc2O1,6,Neutral Pyrone
+Chromone,O=C1C=COc2ccccc12,6,Neutral Pyrone
+Kojic Acid,OCC1=C(O)C(=O)C=CO1,6,Neutral Pyrone
+Morpholine,C1COCCN1,6,Saturated C-N-O
+1,3-Oxazane,C1COCNC1,6,Saturated C-N-O
+1,2-Oxazane,C1CONCC1,6,Saturated C-N-O
+1,3,5-Oxadiazane,C1NCOCN1,6,Saturated C-N-O
+1,4,2-Dioxazane,O1NCOCC1,6,Saturated C-N-O
+1,2,4-Dioxazane,O1OCNCC1,6,Saturated C-N-O
+1,3,5-Dioxazane,C1OCOCN1,6,Saturated C-N-O
+Pyrrole,c1cc[nH]c1,5,Aromatic
+Imidazole,c1cn[nH]c1,5,Aromatic
+Pyrazole,c1c[nH]nc1,5,Aromatic
+1,2,3-Triazole,c1nn[nH]c1,5,Aromatic
+1,2,4-Triazole,c1n[nH]cn1,5,Aromatic
+Tetrazole,c1n[nH]nn1,5,Aromatic
+Pyrrolidine,C1CCNC1,5,Saturated
+Imidazolidine,C1CNCN1,5,Saturated
+Pyrazolidine,C1NNCC1,5,Saturated
+1,2,3-Triazolidine,C1NNNC1,5,Saturated
+1,2,4-Triazolidine,C1NNCN1,5,Saturated
+Tetrazolidine,C1NNNN1,5,Saturated
+Furan,o1cccc1,5,Aromatic
+1,2-Dioxole,C1=CCOO1,5,Unsaturated
+1,3-Dioxole,C1=COCO1,5,Unsaturated
+Tetrahydrofuran,C1CCOC1,5,Saturated
+1,2-Dioxolane,C1COOC1,5,Saturated
+1,3-Dioxolane,C1OCOC1,5,Saturated
+1,3,5-Trioxolane,O1COCO1,5,Saturated
+Oxazole,c1cnco1,5,Aromatic
+Isoxazole,c1conc1,5,Aromatic
+1,2,4-Oxadiazole,c1ncno1,5,Aromatic
+1,3,4-Oxadiazole,c1nnco1,5,Aromatic
+2-Isoxazoline,C1CC=NO1,5,Partially Saturated
+2-Oxazoline,C1CN=CO1,5,Partially Saturated
