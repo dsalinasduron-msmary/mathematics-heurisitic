@@ -1,10 +1,12 @@
 """Fragment-based design: attach fragments from a library to molecular scaffolds."""
 
 from rdkit import Chem
-from rdkit.Chem import Draw, rdFreeSASA
+from rdkit.Chem import Draw
 from collections import defaultdict
 from pathlib import Path
 from typing import Optional
+
+from fragment_combiner import combine
 
 # ---------------------------------------------------------------------------
 # Fragment library I/O
@@ -90,21 +92,9 @@ def read_fragment_library(path: str) -> FragmentLibrary:
 # ---------------------------------------------------------------------------
 
 def find_linker_sites(mol: Chem.Mol) -> list[int]:
-    """Return atom indices that are good candidates for linker/fragment attachment.
-
-    Heuristic (matches the style of generate_fragments.py): any heavy, non-ring
-    atom with at least one hydrogen that can be replaced.
-    """
-    sites: list[int] = []
-    for a in mol.GetAtoms():
-        if a.GetAtomicNum() == 0:          # wildcard — skip
-            continue
-        if a.IsInRing():                    # ring atoms are less flexible
-            continue
-        if a.GetTotalNumHs() < 1:           # no H to replace
-            continue
-        sites.append(a.GetIdx())
-    return sites
+    """Return indices of heavy atoms with at least one H available for attachment."""
+    return [a.GetIdx() for a in mol.GetAtoms()
+            if a.GetAtomicNum() != 0 and a.GetTotalNumHs() > 0]
 
 
 def add_fragment_to_scaffold(
@@ -120,59 +110,19 @@ def add_fragment_to_scaffold(
 
     Raises ``ValueError`` if the fragment has no suitable linker atom.
     """
-    # --- pick attachment atom on fragment (first heavy, non-ring atom) ----
-    frag_linker: int | None = None
-    for a in fragment.GetAtoms():
-        if a.GetAtomicNum() == 0:
-            continue
-        if not a.IsInRing():
-            frag_linker = a.GetIdx()
-            break
+    frag_attach = next(
+        (a.GetIdx() for a in fragment.GetAtoms() if a.GetTotalNumHs() > 0), None
+    )
+    if frag_attach is None:
+        raise ValueError(f"Fragment '{frag_name}' has no H-bearing atom for attachment.")
 
-    if frag_linker is None:
+    product = combine(scaffold, fragment, scaffold_atom_idx, frag_attach)
+    if product is None:
         raise ValueError(
-            f"Fragment '{frag_name}' has no non-ring atom to serve as a linker."
+            f"Fragment '{frag_name}': invalid valence at scaffold atom {scaffold_atom_idx}."
         )
 
-    # --- replace H on scaffold with fragment ------------------------------
-    rw = Chem.RWMol(scaffold)
-
-    # Mark the scaffold attachment atom
-    scaffold_atom = rw.GetAtomWithIdx(scaffold_atom_idx)
-
-    # Remove any H on the scaffold site
-    bonds_to_delete: list[tuple[int, int]] = []
-    for bond in scaffold_atom.GetBonds():
-        partner = bond.GetOtherAtomIdx(scaffold_atom_idx)
-        partner_a = rw.GetAtomWithIdx(partner)
-        if partner_a.GetAtomicNum() == 1:          # hydrogen
-            bonds_to_delete.append((bond.GetBeginAtomIdx(), bond.GetEndAtomIdx()))
-
-    for b1, b2 in bonds_to_delete:
-        rw.RemoveBond(b1, b2)
-
-    # Insert fragment as a subgraph — new atoms start at scaffold.GetNumAtoms()
-    num_before_insert = rw.GetNumAtoms()
-    rw.InsertMol(fragment)
-
-    # Attach first heavy non-ring atom of fragment to the scaffold site
-    attach_atom_idx: int | None = None
-    for a in fragment.GetAtoms():
-        if a.GetAtomicNum() != 0 and not a.IsInRing():
-            attach_atom_idx = num_before_insert + a.GetIdx()
-            break
-
-    if attach_atom_idx is None:
-        raise ValueError(
-            f"Fragment '{frag_name}' has no non-ring atom to serve as a linker."
-        )
-
-    rw.AddBond(scaffold_atom_idx, attach_atom_idx, Chem.BondType.SINGLE)
-
-    product = rw.GetMol()
-    Chem.SanitizeMol(product)
-    smiles = Chem.MolToSmiles(product)
-    return product, smiles
+    return product, Chem.MolToSmiles(product)
 
 
 def scaffold_with_all_fragments(

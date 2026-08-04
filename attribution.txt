@@ -20,7 +20,7 @@ platform.
 ========
 AI USAGE
 ========
-This codebase was written in part using Claude Code and Qwen3.6.
+This codebase was co-written with Qwen and Claude.
 
 ======================
 Imatinib SMILES String
